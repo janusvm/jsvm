@@ -5,8 +5,7 @@ Version: 0.1.0
 Author@R: person("Janus", "Valberg-Madsen", middle = "Sejersbøll",
                  email = "janusvm@gmail.com", role = c("aut", "cre"))
 Maintainer: Janus S. Valberg-Madsen <janusvm@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: My personal toolbelt package.
 License: MIT
 Encoding: UTF-8
 LazyData: true
