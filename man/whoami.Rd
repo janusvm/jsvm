@@ -10,6 +10,9 @@ whoami()
 String of basename.
 }
 \description{
-Utility function that, when used with Rscript, detects the file
-running and returns a vector the basename without extension.
+Utility function that tries to detecs the file being run,
+either with Rscript or with `source`, and returns the
+basename without file extension.
+If the function is not called as a result of a file being
+run, it throws a warning and returns an empty string.
 }
