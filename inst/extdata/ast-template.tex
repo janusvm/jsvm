@@ -1,0 +1,18 @@
+\documentclass[dvipsnames,convert={density=<DPI>,outext=.png}]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{tikz, tikz-qtree}
+\usepackage{xcolor}
+\usepackage{inconsolata}
+
+\begin{document}
+\begin{tikzpicture}[
+  font=\tt,
+  edge from parent/.append style={->,>=latex,Gray},
+  every tree node/.style={minimum width=3ex,minimum height=3ex,inner sep=1pt,semithick},
+  call/.style={rectangle,fill=BurntOrange,minimum width=2ex,minimum height=2ex},
+  sym/.style={rectangle,rounded corners=.5ex,draw=Plum},
+  lit/.style={rectangle,draw}
+  ]
+  <TREE_STRING>
+\end{tikzpicture}
+\end{document}
