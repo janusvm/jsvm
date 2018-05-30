@@ -22,6 +22,6 @@ expr2tikz(y <- x * 2, filename)
 knitr::include_graphics(filename, dpi = 600)
 ```
 
-<img src="man/figures/README-expr2tikz.png" width="30%" style="display: block; margin: auto;" />
+<img src="man/figures/README-expr2tikz.png" width="50%" />
 
 More functions and examples to come...

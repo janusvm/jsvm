@@ -33,7 +33,7 @@ jsvm is my personal toolbelt package with functions that I often tend to use or 
 
 `expr2tikz` creates a tikz string, that (when using the LaTeX package [tikz-qtree](https://ctan.org/pkg/tikz-qtree)) produces a graph representing the abstract syntax tree of an expression, optionally saving the figure as either a pdf or png.
 
-```{r expr2tikz, fig.align='center', out.width='30%'}
+```{r expr2tikz, out.width='50%'}
 filename <- file.path("man", "figures", "README-expr2tikz.png")
 expr2tikz(y <- x * 2, filename)
 knitr::include_graphics(filename, dpi = 600)

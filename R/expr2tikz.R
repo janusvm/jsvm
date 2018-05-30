@@ -81,17 +81,18 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex
   # If the outfile is to be a png, make it
   if (ext == "png") {
     pngfile <- sub(".tex", ".png", texfile, fixed = TRUE)
-    system2("convert", c("-density", dpi, pdffile, pngfile))
+    system2("convert", c("-density", dpi, "-bordercolor white",
+                         "-border 20", pdffile, pngfile))
     getfile <- pngfile
   } else {
     getfile <- pdffile
   }
 
   # Copy the desired files to specified file location
-  file.copy(getfile, file.path(path, filename))
+  file.copy(getfile, file.path(path, filename), overwrite = TRUE)
   if (keep_tex) {
     texout <- sub("\\.[[:alpha:]]{3}", "\\.tex", filename)
-    file.copy(texfile, file.path(path, texout))
+    file.copy(texfile, file.path(path, texout), overwrite = TRUE)
   }
   invisible(tree)
 }
