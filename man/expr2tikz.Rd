@@ -4,7 +4,8 @@
 \alias{expr2tikz}
 \title{Translate R expression into tikz-qtree and save figure}
 \usage{
-expr2tikz(expr, filename = NULL, path = getwd(), dpi = 600)
+expr2tikz(expr, filename = NULL, path = getwd(), dpi = 600,
+  keep_tex = FALSE)
 }
 \arguments{
 \item{expr}{Expression}
@@ -15,17 +16,28 @@ saving an output file.}
 \item{path}{Subdirectory in which to save the figure (default: working directory)}
 
 \item{dpi}{Image density, only relevant for png output (default: 600)}
+
+\item{keep_tex}{Should the .tex file be saved as well? (default: FALSE)
+
+  This argument is ignored if filename is NULL.}
 }
 \value{
 qtree string, invisibly.
   If a filename was provided, it will have node styles, otherwise it will be
-  as plain as possible.
+  as plain as possible and printed to the console.
 }
 \description{
 Plots the abstract syntax tree of an expression in a pdf or png file.
 Requires pdflatex and convert (from ImageMagick) to be on the system PATH.
-The qtree string assumes the node styles \code{call}, \code{sym}, and \code{lit} to exist
-(call, symbol, and literal nodes, respectively).
+The qtree string assumes the node styles \code{call}, \code{sym}, and
+\code{lit} to exist (call, symbol, and literal nodes, respectively).
+}
+\details{
+This function is heavily inspired by the abstract syntax tree figures in
+Hadley Wickham's \href{https://adv-r.hadley.nz}{Advanced R},
+Section 20 (Expressions), and the tikz styles are made to closely mimic the
+style of those figures.
+The code itself is adapted from the function \link[lobstr]{ast}.
 }
 \examples{
 expr2tikz(y <- 2 * x, "fig.png")

@@ -2,23 +2,32 @@
 #'
 #' Plots the abstract syntax tree of an expression in a pdf or png file.
 #' Requires pdflatex and convert (from ImageMagick) to be on the system PATH.
-#' The qtree string assumes the node styles \code{call}, \code{sym}, and \code{lit} to exist
-#' (call, symbol, and literal nodes, respectively).
+#' The qtree string assumes the node styles \code{call}, \code{sym}, and
+#' \code{lit} to exist (call, symbol, and literal nodes, respectively).
+#'
+#' This function is heavily inspired by the abstract syntax tree figures in
+#' Hadley Wickham's \href{https://adv-r.hadley.nz}{Advanced R},
+#' Section 20 (Expressions), and the tikz styles are made to closely mimic the
+#' style of those figures.
+#' The code itself is adapted from the function \link[lobstr]{ast}.
 #'
 #' @param expr Expression
 #' @param filename File name with extension (either .png or .pdf) or NULL for not
 #'   saving an output file.
 #' @param path Subdirectory in which to save the figure (default: working directory)
 #' @param dpi Image density, only relevant for png output (default: 600)
+#' @param keep_tex Should the .tex file be saved as well? (default: FALSE)
+#'
+#'   This argument is ignored if filename is NULL.
 #'
 #' @return qtree string, invisibly.
 #'   If a filename was provided, it will have node styles, otherwise it will be
-#'   as plain as possible.
+#'   as plain as possible and printed to the console.
 #' @examples
 #' expr2tikz(y <- 2 * x, "fig.png")
 #'
 #' @export
-expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600) {
+expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex = FALSE) {
 
   # Generate qtree string
   make_outfile <- !is.null(filename)
@@ -38,20 +47,31 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600) {
     stop("pdflatex and convert must be on system PATH.")
 
   # Generate output in temporary folder
-  outfile <- tempfile(fileext = ".tex")
+  texfile <- tempfile(fileext = ".tex")
+  pdffile <- sub(".tex", ".pdf", texfile, fixed = TRUE)
   template <- system.file(file.path("extdata", "ast-template.tex"), package = "jsvm")
   tex <- readLines(template)
-  tex <- sub("<DPI>", dpi, tex, fixed = TRUE)
   tex <- sub("<TREE_STRING>", tree, tex, fixed = TRUE)
-  writeLines(tex, outfile)
+  writeLines(tex, texfile)
+  system2("pdflatex", c("-interaction=nonstopmode",
+                        paste("-output-directory", tempdir()), texfile),
+          stdout = NULL)
 
-  # TODO: the following lines don't work
-  # cmd <- shQuote(paste("pdflatex -interaction=batchmode -shell-escape -output-directory", tempdir(), outfile))
-  # system(cmd)
+  # If the outfile is to be a png, make it
+  if (ext == "png") {
+    pngfile <- sub(".tex", ".png", texfile, fixed = TRUE)
+    system2("convert", c("-density", dpi, pdffile, pngfile))
+    getfile <- pngfile
+  } else {
+    getfile <- pdffile
+  }
 
-  # Copy the desired file to specified file location
-  # getfile <- paste0(tools::file_path_sans_ext(outfile), ".", ext)
-  # file.copy(getfile, file.path(path, filename))
+  # Copy the desired files to specified file location
+  file.copy(getfile, file.path(path, filename))
+  if (keep_tex) {
+    texout <- sub("\\.[[:alpha:]]{3}", "\\.tex", filename)
+    file.copy(texfile, file.path(path, texout))
+  }
   invisible(tree)
 }
 
@@ -66,9 +86,9 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600) {
   else if (rlang::is_symbol(x)) {
     x <- as.character(x)
     if (!make.names(x) == x) {
-      if (style) return(paste0("\\node[sym] {\\`{}", x, "\\`{}};"))
+      if (style) return(paste0("\\node[sym] {\\`{}", .escapeLaTeX(x), "\\`{}};"))
       else return(paste0("{", encodeString(x, quote = "`"), "}"))
-    } else if (style) return(paste0("\\node[sym] {", x, "};"))
+    } else if (style) return(paste0("\\node[sym] {", .escapeLaTeX(x), "};"))
     else return(paste0("{", x, "}"))
   }
   else if (!is.pairlist(x) && !is.call(x)) {
@@ -92,4 +112,16 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600) {
     if (style) return(paste("[.\\node[call] {};", paste(sub, collapse = " "), "]"))
     else return(paste("[.{<call>}", paste(sub, collapse = " "), "]"))
   }
+}
+
+
+.escapeLaTeX <- function(x) {
+  x <- gsub("}", "\\}", x, fixed = TRUE)
+  x <- gsub("{", "\\{", x, fixed = TRUE)
+  x <- gsub("$", "\\$", x, fixed = TRUE)
+  x <- gsub("%", "\\%", x, fixed = TRUE)
+  x <- gsub("_", "\\_", x, fixed = TRUE)
+  x <- gsub("^", "\\^{}", x, fixed = TRUE)
+  x <- gsub("~", "\\~{}", x, fixed = TRUE)
+  x
 }
