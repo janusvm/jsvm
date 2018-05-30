@@ -7,7 +7,7 @@
 whoami()
 }
 \value{
-String of basename.
+String of basename without file extension.
 }
 \description{
 Utility function that tries to detecs the file being run,

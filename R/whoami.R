@@ -6,13 +6,10 @@
 #' If the function is not called as a result of a file being
 #' run, it throws a warning and returns an empty string.
 #'
-#' @return String of basename.
+#' @return String of basename without file extension.
 #'
 #' @export
 whoami <- function() {
-
-  # Return nothing if running interactively
-  # if (interactive()) return(NULL)
 
   # Get command line arguments and find the filename
   # or get it from the env if file is sourced
@@ -21,8 +18,7 @@ whoami <- function() {
   if (length(m <- grep(file_arg, cmd_args)) > 0L) {
     path <- sub(file_arg, "", cmd_args[m])
   } else {
-      path <- try(get("filename", envir = sys.frame(1L)),
-                  silent = TRUE)
+    path <- try(get("filename", envir = sys.frame(1L)), silent = TRUE)
   }
 
   # Return nothing if a file name could not be found
