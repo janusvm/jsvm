@@ -39,6 +39,25 @@ Section 20 (Expressions), and the tikz styles are made to closely mimic the
 style of those figures.
 The code itself is adapted from the function \link[lobstr]{ast}.
 }
+\section{System requirements}{
+
+In order to render the tree, the following components are required to be installed
+on the system:
+
+For pdf figures, \code{pdflatex} must be installed (e.g. with \href{https://www.tug.org/texlive/}{TeXLive}
+or \href{https://miktex.org/}{MiKTeX}) and on the PATH, and the following packages must be installed:
+\itemize{
+  \item fontenc
+  \item xcolor
+  \item tikz
+  \item tikz-qtree
+  \item inconsolata
+}
+
+For png figures, the requirements for pdf figures must be met, and in addition, \code{convert} from the
+\href{https://www.imagemagick.org/script/index.php}{ImageMagick} suite must be installed and on the PATH.
+}
+
 \examples{
 expr2tikz(y <- 2 * x, "fig.png")
 

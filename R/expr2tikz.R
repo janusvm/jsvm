@@ -11,6 +11,23 @@
 #' style of those figures.
 #' The code itself is adapted from the function \link[lobstr]{ast}.
 #'
+#' @section System requirements:
+#' In order to render the tree, the following components are required to be installed
+#' on the system:
+#'
+#' For pdf figures, \code{pdflatex} must be installed (e.g. with \href{https://www.tug.org/texlive/}{TeXLive}
+#' or \href{https://miktex.org/}{MiKTeX}) and on the PATH, and the following packages must be installed:
+#' \itemize{
+#'   \item fontenc
+#'   \item xcolor
+#'   \item tikz
+#'   \item tikz-qtree
+#'   \item inconsolata
+#' }
+#'
+#' For png figures, the requirements for pdf figures must be met, and in addition, \code{convert} from the
+#' \href{https://www.imagemagick.org/script/index.php}{ImageMagick} suite must be installed and on the PATH.
+#'
 #' @param expr Expression
 #' @param filename File name with extension (either .png or .pdf) or NULL for not
 #'   saving an output file.
@@ -53,9 +70,11 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex
   tex <- readLines(template)
   tex <- sub("<TREE_STRING>", tree, tex, fixed = TRUE)
   writeLines(tex, texfile)
-  system2("pdflatex", c("-interaction=nonstopmode",
-                        paste("-output-directory", tempdir()), texfile),
-          stdout = NULL)
+  failed <- system2("pdflatex", c("-interaction=nonstopmode", "-halt-on-error",
+                                  paste("-output-directory", tempdir()), texfile),
+                    stdout = NULL)
+  if (failed) stop("pdflatex had exit status ", failed,
+                   ". See the System requirements section of ?expr2tikz for more info.")
 
   # If the outfile is to be a png, make it
   if (ext == "png") {
