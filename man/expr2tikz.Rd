@@ -8,16 +8,18 @@ expr2tikz(expr, filename = NULL, path = getwd(), dpi = 600,
   keep_tex = FALSE)
 }
 \arguments{
-\item{expr}{Expression}
+\item{expr}{expression
 
-\item{filename}{File name with extension (either .png or .pdf) or NULL for not
+  NB: the current version can't handle named arguments, neither in function calls nor definitions.}
+
+\item{filename}{file name with extension (either .png or .pdf) or NULL for not
 saving an output file.}
 
-\item{path}{Subdirectory in which to save the figure (default: working directory)}
+\item{path}{subdirectory in which to save the figure}
 
-\item{dpi}{Image density, only relevant for png output (default: 600)}
+\item{dpi}{image density, only relevant for png output}
 
-\item{keep_tex}{Should the .tex file be saved as well? (default: FALSE)
+\item{keep_tex}{should the .tex file be saved as well?
 
   This argument is ignored if filename is NULL.}
 }

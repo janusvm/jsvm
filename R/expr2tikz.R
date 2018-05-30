@@ -28,12 +28,14 @@
 #' For png figures, the requirements for pdf figures must be met, and in addition, \code{convert} from the
 #' \href{https://www.imagemagick.org/script/index.php}{ImageMagick} suite must be installed and on the PATH.
 #'
-#' @param expr Expression
-#' @param filename File name with extension (either .png or .pdf) or NULL for not
+#' @param expr expression
+#'
+#'   NB: the current version can't handle named arguments, neither in function calls nor definitions.
+#' @param filename file name with extension (either .png or .pdf) or NULL for not
 #'   saving an output file.
-#' @param path Subdirectory in which to save the figure (default: working directory)
-#' @param dpi Image density, only relevant for png output (default: 600)
-#' @param keep_tex Should the .tex file be saved as well? (default: FALSE)
+#' @param path subdirectory in which to save the figure
+#' @param dpi image density, only relevant for png output
+#' @param keep_tex should the .tex file be saved as well?
 #'
 #'   This argument is ignored if filename is NULL.
 #'
@@ -53,14 +55,14 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex
   tree <- paste("\\Tree", .enbracket(symlist, make_outfile))
 
   # Check if outfile is wanted and possible
-  if (is.null(filename)) {
+  if (!make_outfile) {
     cat(tree)
     return(invisible(tree))
   }
   ext <- tools::file_ext(filename)
   if (!ext %in% c("pdf", "png"))
     stop("file extension must be either pdf or png.")
-  if (any(nchar(Sys.which(c("pdflatex", "convert"))) == 0))
+  if (any(nchar(Sys.which(c("pdflatex", "convert"))) == 0L))
     stop("pdflatex and convert must be on system PATH.")
 
   # Generate output in temporary folder
@@ -113,13 +115,9 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex
   else if (!is.pairlist(x) && !is.call(x)) {
     return(paste0("<inline ", paste0(class(x), collapse = "/"), ">"))
   }
-  sub <- lapply(x, .subexpr2tikz, style = style)
-  nm <- names(sub)
-  if (is.null(nm)) return(sub)
-  has_name <- nm != ""
-  label <- paste0(nm, " = ")
-  sub[has_name] <- paste0(label[has_name], sub[has_name])
-  sub
+
+  # TODO: add support for named function arguments
+  lapply(x, .subexpr2tikz, style = style)
 }
 
 
