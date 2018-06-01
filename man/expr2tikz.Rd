@@ -4,7 +4,7 @@
 \alias{expr2tikz}
 \title{Translate R expression into tikz-qtree and save figure}
 \usage{
-expr2tikz(expr, filename = NULL, path = getwd(), dpi = 600,
+expr2tikz(expr, filename = NULL, path = NULL, dpi = 600,
   keep_tex = FALSE)
 }
 \arguments{
@@ -15,7 +15,7 @@ expr2tikz(expr, filename = NULL, path = getwd(), dpi = 600,
 \item{filename}{file name with extension (either .png, .svg, or .pdf) or NULL for not
 saving an output file.}
 
-\item{path}{subdirectory in which to save the figure}
+\item{path}{directory in which to save the figure (NULL for current working directory)}
 
 \item{dpi}{image density, only relevant for png output}
 

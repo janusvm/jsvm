@@ -36,7 +36,7 @@
 #'   NB: the current version can't handle named arguments, neither in function calls nor definitions.
 #' @param filename file name with extension (either .png, .svg, or .pdf) or NULL for not
 #'   saving an output file.
-#' @param path subdirectory in which to save the figure
+#' @param path directory in which to save the figure (NULL for current working directory)
 #' @param dpi image density, only relevant for png output
 #' @param keep_tex should the .tex file be saved as well?
 #'
@@ -49,7 +49,7 @@
 #' expr2tikz(y <- 2 * x, "fig.png")
 #'
 #' @export
-expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex = FALSE) {
+expr2tikz <- function(expr, filename = NULL, path = NULL, dpi = 600, keep_tex = FALSE) {
 
   # Generate qtree string
   make_outfile <- !is.null(filename)
@@ -61,6 +61,8 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex
   if (!make_outfile) {
     cat(tree)
     return(invisible(tree))
+  } else if (!is.null(path)) {
+    filename <- file.path(path, filename)
   }
   ext <- tools::file_ext(filename)
   if (!ext %in% c("pdf", "png", "svg"))
@@ -102,10 +104,10 @@ expr2tikz <- function(expr, filename = NULL, path = getwd(), dpi = 600, keep_tex
   }
 
   # Copy the desired files to specified file location
-  file.copy(getfile, file.path(path, filename), overwrite = TRUE)
+  file.copy(getfile, filename, overwrite = TRUE)
   if (keep_tex) {
     texout <- sub("\\.[[:alpha:]]{3}", "\\.tex", filename)
-    file.copy(texfile, file.path(path, texout), overwrite = TRUE)
+    file.copy(texfile, texout, overwrite = TRUE)
   }
   invisible(tree)
 }
