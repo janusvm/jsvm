@@ -1,7 +1,7 @@
 Package: jsvm
 Type: Package
 Title: Miscellaneous functions by Janus S. Valberg-Madsen
-Version: 0.2.1
+Version: 0.2.2
 Author@R: person("Janus", "Valberg-Madsen", middle = "Sejersbøll",
                  email = "janusvm@gmail.com", role = c("aut", "cre"))
 Maintainer: Janus S. Valberg-Madsen <janusvm@gmail.com>

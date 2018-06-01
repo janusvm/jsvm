@@ -14,14 +14,14 @@ Exported functions
 Examples
 --------
 
-`expr2tikz` creates a tikz string, that (when using the LaTeX package [tikz-qtree](https://ctan.org/pkg/tikz-qtree)) produces a graph representing the abstract syntax tree of an expression, optionally saving the figure as either a pdf or png.
+`expr2tikz` creates a tikz string, that (when using the LaTeX package [tikz-qtree](https://ctan.org/pkg/tikz-qtree)) produces a graph representing the abstract syntax tree of an expression, optionally saving the figure as either a pdf, svg, or png.
 
 ``` r
-filename <- file.path("man", "figures", "README-expr2tikz.png")
+filename <- file.path("man", "figures", "README-expr2tikz.svg")
 expr2tikz(y <- x * 2, filename)
-knitr::include_graphics(filename, dpi = 600)
+knitr::include_graphics(filename)
 ```
 
-<img src="man/figures/README-expr2tikz.png" width="50%" />
+<img src="man/figures/README-expr2tikz.svg" width="50%" />
 
 More functions and examples to come...

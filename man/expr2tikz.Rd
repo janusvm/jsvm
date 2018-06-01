@@ -12,7 +12,7 @@ expr2tikz(expr, filename = NULL, path = getwd(), dpi = 600,
 
   NB: the current version can't handle named arguments, neither in function calls nor definitions.}
 
-\item{filename}{file name with extension (either .png or .pdf) or NULL for not
+\item{filename}{file name with extension (either .png, .svg, or .pdf) or NULL for not
 saving an output file.}
 
 \item{path}{subdirectory in which to save the figure}
@@ -29,10 +29,10 @@ qtree string, invisibly.
   as plain as possible and printed to the console.
 }
 \description{
-Plots the abstract syntax tree of an expression in a pdf or png file.
-Requires pdflatex and convert (from ImageMagick) to be on the system PATH.
+Plots the abstract syntax tree of an expression in a pdf, png, or svg file.
 The qtree string assumes the node styles \code{call}, \code{sym}, and
 \code{lit} to exist (call, symbol, and literal nodes, respectively).
+See below for system requirements.
 }
 \details{
 This function is heavily inspired by the abstract syntax tree figures in
@@ -58,6 +58,9 @@ or \href{https://miktex.org/}{MiKTeX}) and on the PATH, and the following packag
 
 For png figures, the requirements for pdf figures must be met, and in addition, \code{convert} from the
 \href{https://www.imagemagick.org/script/index.php}{ImageMagick} suite must be installed and on the PATH.
+
+For svg figures, the requirements for pdf figures must be met, and in addition, \code{pdf2svg} must
+be installed and on the PATH.
 }
 
 \examples{
