@@ -18,9 +18,9 @@ devtools::install_github("janusvm/jsvm")
 Some functions rely on one or more external programs. Not having these programs will not hinder the installation of the package, but some functionality will be missing. The current dependencies are:
 
 -   `expr2tikz()`:
--   a LaTeX distribution, for using `pdflatex` to compile standalone tikz figures (also requires the LaTeX packages `fontenc`, `xcolor`, `tikz`, `tikz-qtree`, and `inconsolata` to be installed)
--   `imagemagick`, for using `convert` to make png files of such figures
--   `pdf2svg`, for making svg files of such figures
+    -   a LaTeX distribution, for using `pdflatex` to compile standalone tikz figures (also requires the LaTeX packages `fontenc`, `xcolor`, `tikz`, `tikz-qtree`, and `inconsolata` to be installed)
+    -   `imagemagick`, for using `convert` to make png files of such figures
+    -   `pdf2svg`, for making svg files of such figures
 
 Exported functions
 ------------------
