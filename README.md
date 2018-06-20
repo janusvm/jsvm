@@ -26,6 +26,7 @@ Exported functions
 ------------------
 
 -   `whoami()`: get filename of executing script when run with Rscript
+-   `quiet_library()`: convenience function for suppressing all output while loading one or more packages
 -   `expr2tikz()`: plot the AST of an expression with TikZ (tikz-qtree) in the style of the figures in [Advanced R: Expressions](https://adv-r.hadley.nz/expressions.html)
 
 Examples

@@ -8,6 +8,7 @@
 #'
 #' @return String of basename without file extension.
 #'
+#' @family utility functions
 #' @export
 whoami <- function() {
 

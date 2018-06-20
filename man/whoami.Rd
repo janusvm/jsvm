@@ -16,3 +16,6 @@ basename without file extension.
 If the function is not called as a result of a file being
 run, it throws a warning and returns an empty string.
 }
+\seealso{
+Other utility functions: \code{\link{quiet_library}}
+}
